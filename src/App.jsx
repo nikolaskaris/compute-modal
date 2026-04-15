@@ -515,7 +515,8 @@ function DealEvaluator() {
           {/* Sensitivity Table */}
           <div className="p-4 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
             <h4 className="text-xs font-semibold text-[#8888a0] mb-3">Margin Sensitivity by Utilization</h4>
-            <table className="w-full text-xs">
+            <div className="overflow-x-auto">
+            <table className="w-full text-xs min-w-[480px]">
               <thead>
                 <tr className="text-[#8888a0] border-b border-[#1e1e2e]">
                   <th className="text-left py-2 px-3">Utilization</th>
@@ -549,6 +550,7 @@ function DealEvaluator() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>
@@ -730,7 +732,7 @@ function MarketPrices({ apiKey }) {
         <table className="w-full text-xs">
           <thead>
             <tr className="bg-[#12121a]">
-              <th className="text-left py-3 px-4 text-[#8888a0] font-medium sticky left-0 bg-[#12121a] z-10">Provider</th>
+              <th className="text-left py-3 px-4 text-[#8888a0] font-medium sticky left-0 bg-[#12121a] z-20">Provider</th>
               {displayGpus.map(gpu => (
                 <th key={gpu}
                   onClick={() => handleSort(gpu)}
@@ -743,7 +745,7 @@ function MarketPrices({ apiKey }) {
           <tbody>
             {/* Modal Sell Price Row */}
             <tr className="border-b-2 border-[#62DE61]/20 bg-[#62DE61]/5">
-              <td className="py-2.5 px-4 font-medium text-[#62DE61] sticky left-0 bg-[#62DE61]/5 z-10 flex items-center gap-1.5">
+              <td className="py-2.5 px-4 font-medium text-[#62DE61] sticky left-0 bg-[#111118] z-20 flex items-center gap-1.5">
                 <Zap size={12} /> Modal Sell
               </td>
               {displayGpus.map(gpu => (
@@ -756,7 +758,7 @@ function MarketPrices({ apiKey }) {
             {/* Provider Rows */}
             {sortedProviders.map(provider => (
               <tr key={provider} className="border-b border-[#1e1e2e]/50 hover:bg-[#1e1e2e]/30 transition-colors">
-                <td className="py-2.5 px-4 text-[#e2e2e8] font-medium sticky left-0 bg-[#0a0a0f] z-10">
+                <td className="py-2.5 px-4 text-[#e2e2e8] font-medium sticky left-0 bg-[#0a0a0f] z-20">
                   {provider}
                   {provider === 'OCI' && <span className="ml-2 text-[9px] px-1.5 py-0.5 rounded bg-[#62DE61]/10 text-[#62DE61]">Partner</span>}
                 </td>
@@ -774,7 +776,7 @@ function MarketPrices({ apiKey }) {
 
             {/* Best Available Row */}
             <tr className="border-t-2 border-[#1e1e2e] bg-[#12121a]">
-              <td className="py-2.5 px-4 text-[#8888a0] font-medium sticky left-0 bg-[#12121a] z-10">Best Available</td>
+              <td className="py-2.5 px-4 text-[#8888a0] font-medium sticky left-0 bg-[#12121a] z-20">Best Available</td>
               {displayGpus.map(gpu => (
                 <td key={gpu} className="text-right py-2.5 px-3 font-mono font-bold text-[#3b82f6]">
                   {bestPrices[gpu] != null ? fmt(bestPrices[gpu]) : '—'}
@@ -784,7 +786,7 @@ function MarketPrices({ apiKey }) {
 
             {/* Estimated Margin Row */}
             <tr className="bg-[#12121a]">
-              <td className="py-2.5 px-4 text-[#8888a0] font-medium sticky left-0 bg-[#12121a] z-10">Est. Margin</td>
+              <td className="py-2.5 px-4 text-[#8888a0] font-medium sticky left-0 bg-[#12121a] z-20">Est. Margin</td>
               {displayGpus.map(gpu => {
                 const sell = MODAL_SELL_PRICES[gpu];
                 const best = bestPrices[gpu];
