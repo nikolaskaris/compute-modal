@@ -1612,8 +1612,8 @@ function App() {
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#62DE61] animate-pulse shrink-0" />
             <h1 className="text-sm md:text-base font-bold tracking-tight">
-              <span className="text-[#62DE61]">Compute Intel</span>
-              <span className="text-[#8888a0] font-normal ml-1.5 hidden sm:inline">— Modal Procurement Dashboard</span>
+              <span className="text-[#62DE61]">Modal</span>
+              <span className="text-[#8888a0] font-normal ml-1.5">Compute Procurement Dashboard</span>
             </h1>
           </div>
           <div className="flex items-center gap-2 md:gap-4">
