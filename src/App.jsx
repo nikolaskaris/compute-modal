@@ -178,7 +178,7 @@ function TabBar({ activeTab, setActiveTab }) {
     { id: 'methodology', label: 'Methodology', icon: Info },
   ];
   return (
-    <div className="flex border-b border-[#1e1e2e]">
+    <div className="flex overflow-x-auto border-b border-[#1e1e2e] scrollbar-hide">
       {tabs.map(t => {
         const Icon = t.icon;
         const active = activeTab === t.id;
@@ -186,14 +186,15 @@ function TabBar({ activeTab, setActiveTab }) {
           <button
             key={t.id}
             onClick={() => setActiveTab(t.id)}
-            className={`flex items-center gap-2 px-5 py-3 text-sm font-medium transition-colors border-b-2 ${
+            className={`flex items-center gap-1.5 px-3 md:px-5 py-3 text-xs md:text-sm font-medium transition-colors border-b-2 whitespace-nowrap shrink-0 ${
               active
                 ? 'text-[#62DE61] border-[#62DE61] bg-[#62DE61]/5'
                 : 'text-[#8888a0] border-transparent hover:text-[#e2e2e8] hover:bg-[#1e1e2e]/50'
             }`}
           >
-            <Icon size={16} />
-            {t.label}
+            <Icon size={14} />
+            <span className="hidden sm:inline">{t.label}</span>
+            <span className="sm:hidden">{t.label.split(' ')[0]}</span>
           </button>
         );
       })}
@@ -206,16 +207,16 @@ function StatBar() {
   const totalProviders = PROVIDERS.length;
   const totalGpus = GPU_TYPES.length;
   return (
-    <div className="flex items-center gap-6 px-6 py-2.5 bg-[#12121a] border-b border-[#1e1e2e] text-xs text-[#8888a0]">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 md:px-6 py-2 bg-[#12121a] border-b border-[#1e1e2e] text-[10px] md:text-xs text-[#8888a0]">
       <span className="flex items-center gap-1.5">
         <Server size={12} className="text-[#62DE61]" />
-        Tracking <span className="text-[#e2e2e8] font-mono">{totalProviders}</span> providers across <span className="text-[#e2e2e8] font-mono">{totalGpus}</span> GPU types
+        <span className="font-mono text-[#e2e2e8]">{totalProviders}</span> providers · <span className="font-mono text-[#e2e2e8]">{totalGpus}</span> GPUs
       </span>
-      <span className="text-[#1e1e2e]">|</span>
-      <span>H100 market avg: <span className="text-[#62DE61] font-mono">{fmt(h100Stats.avg)}</span>/hr</span>
-      <span className="text-[#1e1e2e]">|</span>
-      <span>H100 range: <span className="font-mono text-[#e2e2e8]">{fmt(h100Stats.min)}</span> – <span className="font-mono text-[#e2e2e8]">{fmt(h100Stats.max)}</span></span>
-      <span className="ml-auto text-[#8888a0]/60 text-[10px]">Market data via getdeploying.com · Baseline Apr 2026</span>
+      <span className="hidden md:inline text-[#1e1e2e]">|</span>
+      <span>H100 avg: <span className="text-[#62DE61] font-mono">{fmt(h100Stats.avg)}</span>/hr</span>
+      <span className="hidden sm:inline text-[#1e1e2e]">|</span>
+      <span className="hidden sm:inline">Range: <span className="font-mono text-[#e2e2e8]">{fmt(h100Stats.min)}</span> – <span className="font-mono text-[#e2e2e8]">{fmt(h100Stats.max)}</span></span>
+      <span className="ml-auto text-[#8888a0]/60 text-[9px] hidden md:inline">Market data via getdeploying.com · Baseline Apr 2026</span>
     </div>
   );
 }
@@ -304,7 +305,7 @@ function DealEvaluator() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-6">
       {/* Presets */}
       <div className="flex flex-wrap gap-2">
         <span className="text-xs text-[#8888a0] self-center mr-2">Quick scenarios:</span>
@@ -320,9 +321,9 @@ function DealEvaluator() {
       </div>
 
       {/* Input + Output Row */}
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Inputs */}
-        <div className="col-span-4 space-y-4 p-5 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
+        <div className="lg:col-span-4 space-y-4 p-5 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
           <h3 className="text-sm font-semibold text-[#e2e2e8] flex items-center gap-2">
             <Calculator size={14} className="text-[#62DE61]" /> Deal Parameters
           </h3>
@@ -384,9 +385,9 @@ function DealEvaluator() {
         </div>
 
         {/* Outputs */}
-        <div className="col-span-8 space-y-4">
+        <div className="lg:col-span-8 space-y-4">
           {/* KPI Cards */}
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="p-4 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
               <div className="text-xs text-[#8888a0] mb-1">Total Contract Cost</div>
               <div className="text-lg font-mono font-bold text-[#e2e2e8]">{fmtCompact(totalCost)}</div>
@@ -417,7 +418,7 @@ function DealEvaluator() {
 
           {/* Savings Comparison */}
           {(savingsVsOnDemand != null || savingsVsAvg != null) && (
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {savingsVsOnDemand != null && (
                 <div className="p-3 rounded-lg bg-[#12121a] border border-[#1e1e2e] flex items-center gap-3">
                   <div className={`p-2 rounded ${savingsVsOnDemand > 0 ? 'bg-emerald-400/10' : 'bg-red-400/10'}`}>
@@ -461,7 +462,7 @@ function DealEvaluator() {
           )}
 
           {/* Charts Row */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Breakeven Chart */}
             <div className="p-4 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
               <h4 className="text-xs font-semibold text-[#8888a0] mb-3">Profit/Loss by Utilization</h4>
@@ -673,10 +674,10 @@ function MarketPrices({ apiKey }) {
   }, [pricingTier]);
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="p-4 md:p-6 space-y-4">
       {/* Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
           <div className="flex rounded-lg border border-[#1e1e2e] overflow-hidden">
             {['ondemand', 'reserved', 'spot'].map(t => (
               <button key={t} onClick={() => setPricingTier(t)}
@@ -884,10 +885,10 @@ function SupplierScorecard() {
   };
 
   return (
-    <div className="p-6 space-y-4">
-      <div className="grid grid-cols-12 gap-6">
+    <div className="p-4 md:p-6 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Weight Controls */}
-        <div className="col-span-3 p-4 rounded-lg bg-[#12121a] border border-[#1e1e2e] space-y-3">
+        <div className="lg:col-span-3 p-4 rounded-lg bg-[#12121a] border border-[#1e1e2e] space-y-3">
           <h3 className="text-xs font-semibold text-[#e2e2e8] flex items-center gap-2">
             <Percent size={14} className="text-[#62DE61]" /> Dimension Weights
           </h3>
@@ -909,7 +910,7 @@ function SupplierScorecard() {
         </div>
 
         {/* Scorecard Grid + Radar */}
-        <div className="col-span-9 space-y-4">
+        <div className="lg:col-span-9 space-y-4">
           {/* Provider Cards */}
           <div className="grid grid-cols-1 gap-3">
             {scored.map((s, i) => (
@@ -944,7 +945,7 @@ function SupplierScorecard() {
                 </div>
 
                 {/* Dimension scores */}
-                <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mt-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 mt-3">
                   {['price', 'availability', 'networking', 'sla', 'flexibility', 'geo', 'modalFit'].map(dim => (
                     <div key={dim} className="flex items-center gap-2">
                       <span className="text-[10px] text-[#8888a0] w-20 shrink-0">{DIMENSION_LABELS[dim]}</span>
@@ -1000,7 +1001,7 @@ function MarketTrends() {
   }, []);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-6">
       {/* H100 Price History */}
       <div className="p-5 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
         <h3 className="text-sm font-semibold text-[#e2e2e8] mb-4">H100 On-Demand Price Trajectory</h3>
@@ -1024,7 +1025,7 @@ function MarketTrends() {
         </ResponsiveContainer>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Multi-GPU Price Range */}
         <div className="p-5 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
           <h3 className="text-sm font-semibold text-[#e2e2e8] mb-1">Current Market Range by GPU</h3>
@@ -1078,7 +1079,7 @@ function MarketTrends() {
         <h3 className="text-sm font-semibold text-[#e2e2e8] mb-3 flex items-center gap-2">
           <AlertTriangle size={14} className="text-[#f59e0b]" /> Market Intelligence Signals
         </h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {MARKET_SIGNALS.map((signal, i) => {
             const colors = severityColors[signal.severity];
             return (
@@ -1259,9 +1260,9 @@ function Portfolio() {
   }, [analytics]);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 md:p-6 space-y-6">
       {/* KPI Summary */}
-      <div className="grid grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         <div className="p-4 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
           <div className="text-[10px] text-[#8888a0] mb-1">Total Contracts</div>
           <div className="text-xl font-mono font-bold text-[#e2e2e8]">{contracts.length}</div>
@@ -1291,9 +1292,9 @@ function Portfolio() {
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Contract Book */}
-        <div className="col-span-7 space-y-4">
+        <div className="lg:col-span-7 space-y-4">
           <div className="rounded-lg bg-[#12121a] border border-[#1e1e2e] overflow-hidden">
             <div className="px-4 py-3 border-b border-[#1e1e2e] flex items-center justify-between">
               <h3 className="text-sm font-semibold text-[#e2e2e8] flex items-center gap-2">
@@ -1308,7 +1309,7 @@ function Portfolio() {
             {/* Add form */}
             {showAddForm && (
               <div className="px-4 py-3 border-b border-[#1e1e2e] bg-[#0a0a0f]">
-                <div className="grid grid-cols-6 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                   <select value={newContract.provider} onChange={e => setNewContract(n => ({ ...n, provider: e.target.value }))}
                     className="bg-[#12121a] border border-[#1e1e2e] rounded px-2 py-1.5 text-xs text-[#e2e2e8] focus:border-[#62DE61] focus:outline-none">
                     {[...PROVIDERS, 'Voltage Park', 'Together AI', 'Nebius', 'FluidStack', 'TensorDock'].map(p => <option key={p}>{p}</option>)}
@@ -1334,7 +1335,8 @@ function Portfolio() {
             )}
 
             {/* Contract rows */}
-            <table className="w-full text-xs">
+            <div className="overflow-x-auto">
+            <table className="w-full text-xs min-w-[600px]">
               <thead>
                 <tr className="text-[#8888a0] border-b border-[#1e1e2e]">
                   <th className="text-left py-2 px-4">Provider</th>
@@ -1381,6 +1383,7 @@ function Portfolio() {
                 })}
               </tbody>
             </table>
+            </div>
           </div>
 
           {/* GPU Allocation Breakdown */}
@@ -1408,7 +1411,7 @@ function Portfolio() {
         </div>
 
         {/* Right column: Charts + Capacity Forecast */}
-        <div className="col-span-5 space-y-4">
+        <div className="lg:col-span-5 space-y-4">
           {/* Provider Concentration */}
           <div className="p-4 rounded-lg bg-[#12121a] border border-[#1e1e2e]">
             <h4 className="text-xs font-semibold text-[#8888a0] mb-3">Spend by Provider</h4>
@@ -1599,39 +1602,39 @@ function App() {
     <div className="min-h-screen bg-[#0a0a0f] text-[#e2e2e8]">
       {/* Header */}
       <header className="border-b border-[#1e1e2e] bg-[#12121a]">
-        <div className="flex items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-[#62DE61] animate-pulse" />
-            <h1 className="text-base font-bold tracking-tight">
-              <span className="text-[#62DE61]">Compute Intelligence</span>
-              <span className="text-[#8888a0] font-normal ml-2">— Modal Procurement Dashboard</span>
+        <div className="flex flex-wrap items-center justify-between gap-2 px-4 md:px-6 py-3">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[#62DE61] animate-pulse shrink-0" />
+            <h1 className="text-sm md:text-base font-bold tracking-tight">
+              <span className="text-[#62DE61]">Compute Intel</span>
+              <span className="text-[#8888a0] font-normal ml-1.5 hidden sm:inline">— Modal Procurement Dashboard</span>
             </h1>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <button onClick={() => setShowApiKey(s => !s)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded border transition-colors ${
+              className={`flex items-center gap-1.5 px-2 py-1.5 text-[10px] md:text-xs rounded border transition-colors ${
                 apiKey ? 'border-[#62DE61]/30 text-[#62DE61] hover:bg-[#62DE61]/10' : 'border-[#1e1e2e] text-[#8888a0] hover:text-[#e2e2e8]'
               }`}>
               <Key size={12} />
-              {apiKey ? 'API Key Set' : 'Set API Key'}
+              <span className="hidden sm:inline">{apiKey ? 'API Key Set' : 'Set API Key'}</span>
             </button>
-            {showApiKey && (
-              <div className="flex items-center gap-2">
-                <input
-                  type="password"
-                  placeholder="sk-ant-..."
-                  value={apiKey}
-                  onChange={e => saveApiKey(e.target.value)}
-                  className="bg-[#0a0a0f] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs font-mono text-[#e2e2e8] w-48 focus:border-[#62DE61] focus:outline-none"
-                />
-                {apiKey && <button onClick={() => saveApiKey('')} className="text-[10px] text-red-400 hover:text-red-300">Clear</button>}
-              </div>
-            )}
-            <div className="text-xs text-[#8888a0] font-mono">
+            <div className="text-[10px] md:text-xs text-[#8888a0] font-mono hidden sm:block">
               {new Date().toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
             </div>
           </div>
         </div>
+        {showApiKey && (
+          <div className="flex items-center gap-2 px-4 md:px-6 pb-3">
+            <input
+              type="password"
+              placeholder="sk-ant-..."
+              value={apiKey}
+              onChange={e => saveApiKey(e.target.value)}
+              className="bg-[#0a0a0f] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs font-mono text-[#e2e2e8] w-full max-w-xs focus:border-[#62DE61] focus:outline-none"
+            />
+            {apiKey && <button onClick={() => saveApiKey('')} className="text-[10px] text-red-400 hover:text-red-300 shrink-0">Clear</button>}
+          </div>
+        )}
         <StatBar />
         <TabBar activeTab={activeTab} setActiveTab={setActiveTab} />
       </header>
