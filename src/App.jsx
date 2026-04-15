@@ -621,8 +621,10 @@ function MarketPrices({ apiKey }) {
       }
       const data = await response.json();
       const text = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
-      const cleaned = text.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(cleaned);
+      // Extract JSON object from response — Claude may include preamble text
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('No JSON found in response');
+      const parsed = JSON.parse(jsonMatch[0]);
 
       // Merge into existing live data
       setLiveData(prev => {
