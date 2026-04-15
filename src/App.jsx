@@ -642,8 +642,10 @@ function MarketPrices({ apiKey }) {
   };
 
   const refreshAll = async () => {
-    for (const gpu of ['H100', 'H200', 'B200', 'A100 80GB']) {
-      await refreshPricing(gpu);
+    const gpus = ['H100', 'H200', 'B200', 'A100 80GB'];
+    for (let i = 0; i < gpus.length; i++) {
+      await refreshPricing(gpus[i]);
+      if (i < gpus.length - 1) await new Promise(r => setTimeout(r, 15000));
     }
   };
 
