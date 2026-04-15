@@ -1655,12 +1655,6 @@ function App() {
         {activeTab === 'methodology' && <Methodology />}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-[#1e1e2e] px-6 py-4 text-center">
-        <p className="text-[10px] text-[#8888a0]/50">
-          Built by Niko as a work sample for Modal's Compute Strategy & Operations Lead role
-        </p>
-      </footer>
     </div>
   );
 }
